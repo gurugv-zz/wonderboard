@@ -21,7 +21,7 @@ body {font-family: Trebuchet MS;}
 		$("#signUpForm").hide();
 		//	$("#signUpButton").attr('disabled', 'disabled');
 		$("#signUpButton").click(function(event) {
-			alert("hi " + $("#userId").val());
+			//alert("hi " + $("#userId").val());
 			$.post("wbSignup", {
 				"userId" : $("#userId").val(),
 				userPassword : $("#userPassword").val(),
@@ -31,9 +31,11 @@ body {font-family: Trebuchet MS;}
 				if(data){
 					$("#errorMessage").html(data);
 				}else{
+					var usr = $("#userId").val();
 					$("#errorMessage").html("done! userid : "+$("#userId").val() + "; password : "+$("#userPassword").val());
 					$("#userId").val("");
 					$("#userPassword").val("")
+					alert("You are signed up : "+usr);
 				}
 				
 			}, "text");
@@ -46,10 +48,10 @@ body {font-family: Trebuchet MS;}
 	}
 </script>
 
-<body style="align:center">
-	<h2><font face="Trebuchet MS"><b><u>WonderBoard</u></b> Network Copy Paste</font></h2>
+<body  style="width:100%">
+	<h2 align="center"><font face="Trebuchet MS"><b><u>WonderBoard</u></b> Network Copy Paste</font></h2>
 
-	<table>
+	<table align="center">
 		<tr>
 			<td><img  width="150" height="150" src="images/MushroomBig.png"></img></td>
 
@@ -58,7 +60,7 @@ body {font-family: Trebuchet MS;}
 						<td><br>Small utility to allow copy & paste across machines :-)<br><br></td>
 					</tr>
 					<tr>
-						<td><a href="javascript:showSingupForm();">Sign Up</a></td>
+						<td><a href="javascript:showSingupForm();">1. Sign Up</a></td>
 					</tr>
 					<tr>
 						<td><div id="signUpForm">
@@ -84,9 +86,12 @@ body {font-family: Trebuchet MS;}
 							</div>
 					</tr>
 					<tr>
-						<td><a href="client/wb.jar">Download client (JRE required)</a></td>
+						<td><a href="client/wb.jar">2. Download client (Windows, Mac, Linux)</a></td>
 					</tr>
 				</table></td>
+		</tr>
+		<tr>
+			<td colspan="2"><br><img src="images/wonderboard.png"></img></td>
 		</tr>
 	</table>
 </body>

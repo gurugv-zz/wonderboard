@@ -157,29 +157,39 @@ public class WbClient {
 	}
 
 	void login() {
+		loginWorkflow();
+		userIdMenuItem.setLabel(userId == null ? "<<LOGIN>>" : userId);
+	}
+
+	void loginWorkflow() {
 		String tmpUser = getUserIdInput();
+		if(tmpUser == null){
+			return;
+		}
 		String tmpUserPass = getUserPass(tmpUser);
+		if(tmpUserPass == null){
+			return;
+		}
 		boolean valid = false;
 		try {
 			valid = Util.authenticate(tmpUser, tmpUserPass);
+			if (valid) {
+				userId = tmpUser;
+				userPassword = tmpUserPass;
+				trayIcon.displayMessage("Welcome", "Welcome " + userId,
+						MessageType.INFO);
+			} else {
+				userId = null;
+				trayIcon.displayMessage("Authentication Failed", "Login Failed!",
+						MessageType.ERROR);
+
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			userId = null;
-			trayIcon.displayMessage("Not avaialble", "unable to connect",
+			trayIcon.displayMessage("Not avaialble", "unable to connect "+e.getMessage(),
 					MessageType.ERROR);
 		}
-		if (valid) {
-			userId = tmpUser;
-			userPassword = tmpUserPass;
-			trayIcon.displayMessage("Welcome", "Welcome " + userId,
-					MessageType.INFO);
-		} else {
-			userId = null;
-			trayIcon.displayMessage("Authentication Failed", "Login Failed!",
-					MessageType.ERROR);
-
-		}
-		userIdMenuItem.setLabel(userId == null ? "<<LOGIN>>" : userId);
 	}
 
 	private String getUserPass(String tmpUser) {

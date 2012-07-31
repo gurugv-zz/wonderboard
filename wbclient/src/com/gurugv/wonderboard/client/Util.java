@@ -9,9 +9,8 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.StringReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -22,7 +21,7 @@ public class Util {
 
 		String data = getClipboarddata();
 		URL myURL = new URL("http://wonder-board.appspot.com/wbSet?userId="
-				+ userId+"&userPassword="+userPassword + "&data=" + URLEncoder.encode(data));
+				+ userId+"&userPassword="+userPassword + "&data=" + URLEncoder.encode(data,"UTF-8"));
 		URLConnection myURLConnection = myURL.openConnection();
 		myURLConnection.connect();
 		BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -78,12 +77,22 @@ public class Util {
 	}
 
 	public static boolean authenticate(String userId, String userPass) throws IOException {
-		URL oracle = new URL("http://wonder-board.appspot.com/wbSignup?userId="
-				+ userId+"&userPassword="+userPass+"&actReq=authenticate");
-		HttpURLConnection yc = (HttpURLConnection) oracle.openConnection();
-		yc.setRequestMethod("POST");
+		URL oracle = new URL("http://wonder-board.appspot.com/wbSignup");
+		
+		String toServer = "userId="+userId+"&userPassword="+userPass+"&actReq=authenticate";
+		HttpURLConnection con = (HttpURLConnection) oracle.openConnection();
+		con.setRequestMethod("POST");
+		con.setRequestProperty("Content-type","application/x-www-form-urlencoded");
+		con.setRequestProperty("Content-length",""+toServer.length());
+		con.setDoOutput(true);
+		con.setUseCaches(false);
+		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+		wr.write(toServer);
+		wr.flush();
+		wr.close();
+		
 		BufferedReader in = new BufferedReader(new InputStreamReader(
-				yc.getInputStream()));
+				con.getInputStream()));
 		String data = "";
 		String inputLine;
 		while ((inputLine = in.readLine()) != null){

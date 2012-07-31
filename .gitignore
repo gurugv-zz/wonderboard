@@ -1,5 +1,5 @@
 *.class
-
+wb.jar
 # Package Files #
 *.jar
 *.war
