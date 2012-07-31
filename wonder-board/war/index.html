@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>WonderBoard - Network Copy Paste</title>
+<script type="text/javascript" src="script/jquery-1.7.2.min.js"></script>
+<style type="text/css">
+body {font-family: Trebuchet MS;}
+</style>
+</head>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#signUpForm").hide();
+		//	$("#signUpButton").attr('disabled', 'disabled');
+		$("#signUpButton").click(function(event) {
+			alert("hi " + $("#userId").val());
+			$.post("wbSignup", {
+				"userId" : $("#userId").val(),
+				userPassword : $("#userPassword").val(),
+				actReq : "signup"
+			}, function(data) {
+				
+				if(data){
+					$("#errorMessage").html(data);
+				}else{
+					$("#errorMessage").html("done! userid : "+$("#userId").val() + "; password : "+$("#userPassword").val());
+					$("#userId").val("");
+					$("#userPassword").val("")
+				}
+				
+			}, "text");
+
+		});
+
+	});
+	function showSingupForm() {
+		$("#signUpForm").show("slow");
+	}
+</script>
+
+<body style="align:center">
+	<h2><font face="Trebuchet MS"><b><u>WonderBoard</u></b> Network Copy Paste</font></h2>
+
+	<table>
+		<tr>
+			<td><img  width="150" height="150" src="images/MushroomBig.png"></img></td>
+
+			<td valign="top"><table>
+			<tr>
+						<td><br>Small utility to allow copy & paste across machines :-)<br><br></td>
+					</tr>
+					<tr>
+						<td><a href="javascript:showSingupForm();">Sign Up</a></td>
+					</tr>
+					<tr>
+						<td><div id="signUpForm">
+								<table>
+									<tr>
+									<td colspan="2"><div id="errorMessage"></div></td>
+									</tr>
+									<tr>
+										<td>UserId</td>
+										<td><input type="text" id="userId" /></td>
+									</tr>
+									<tr>
+										<td>Password</td>
+										<td><input type="password" id="userPassword" /></td>
+									</tr>
+
+									<tr>
+										<td></td>
+										<td><input type="button" id="signUpButton"
+											value="Sign Up" /></td>
+									</tr>
+								</table>
+							</div>
+					</tr>
+					<tr>
+						<td><a href="client/wb.jar">Download client (JRE required)</a></td>
+					</tr>
+				</table></td>
+		</tr>
+	</table>
+</body>
+</html>
