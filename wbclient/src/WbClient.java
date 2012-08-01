@@ -51,8 +51,9 @@ public class WbClient {
 
 		// Create a popup menu components
 		userIdMenuItem = new MenuItem(userId);
-		MenuItem publishItem = new MenuItem("Publish");
-		MenuItem refresh = new MenuItem("Refresh From Network");
+		MenuItem publishItem = new MenuItem("Publish Clipboard");
+		MenuItem refresh = new MenuItem("Refresh Clipboard From Network");
+		MenuItem shareMenuItem = new MenuItem("Share Clipboard (Coming Soon)");
 		// CheckboxMenuItem cb1 = new CheckboxMenuItem("Set auto size");
 		// CheckboxMenuItem cb2 = new CheckboxMenuItem("Set tooltip");
 		// Menu displayMenu = new Menu("Display");
@@ -70,6 +71,10 @@ public class WbClient {
 		// popup.add(cb1);
 		// popup.add(cb2);
 		popup.addSeparator();
+		popup.add(shareMenuItem);
+		
+		popup.addSeparator();
+
 		// popup.add(displayMenu);
 		// displayMenu.add(errorItem);
 		// displayMenu.add(warningItem);
@@ -163,11 +168,11 @@ public class WbClient {
 
 	void loginWorkflow() {
 		String tmpUser = getUserIdInput();
-		if(tmpUser == null){
+		if (tmpUser == null) {
 			return;
 		}
 		String tmpUserPass = getUserPass(tmpUser);
-		if(tmpUserPass == null){
+		if (tmpUserPass == null) {
 			return;
 		}
 		boolean valid = false;
@@ -180,15 +185,15 @@ public class WbClient {
 						MessageType.INFO);
 			} else {
 				userId = null;
-				trayIcon.displayMessage("Authentication Failed", "Login Failed!",
-						MessageType.ERROR);
+				trayIcon.displayMessage("Authentication Failed",
+						"Login Failed!", MessageType.ERROR);
 
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			userId = null;
-			trayIcon.displayMessage("Not avaialble", "unable to connect "+e.getMessage(),
-					MessageType.ERROR);
+			trayIcon.displayMessage("Not avaialble",
+					"unable to connect " + e.getMessage(), MessageType.ERROR);
 		}
 	}
 
