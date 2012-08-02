@@ -9,6 +9,7 @@
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="E:/devEnv/mywrk/wb/wbclient/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="E:/devEnv/mywrk/wb/wbclient/lib/gson-2.2.2.jar"/>
         </jar>
     </target>
 </project>

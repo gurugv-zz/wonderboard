@@ -11,95 +11,135 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.util.HashMap;
+
+import com.google.gson.Gson;
+
 
 public class Util {
 
-	public static String publish(String userId,String userPassword) throws Throwable {
+	private static final String PARAM_USER_ID_TO_SHARE = "userIdToShare";
+	private static final String PARAM_DATA = "data";
+	private static final String PARAM_USER_PASSWORD = "userPassword";
+	private static final String PARAM_USER_ID = "userId";
+	private static final Gson gson = new Gson();
+
+	public static String shareCurrentClipboardTo(String currentUserId,
+			String userPassword, String shareTouserId)
+			throws UnsupportedFlavorException, Throwable {
 
 		String data = getClipboarddata();
-		URL myURL = new URL("http://wonder-board.appspot.com/wbSet?userId="
-				+ userId+"&userPassword="+userPassword + "&data=" + URLEncoder.encode(data,"UTF-8"));
-		URLConnection myURLConnection = myURL.openConnection();
-		myURLConnection.connect();
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				myURLConnection.getInputStream()));
-		String result = "";
-		String inputLine;
-		while ((inputLine = in.readLine()) != null){
-			result += inputLine;
-		}
-		in.close();
-		System.out.println(result+" published " + data + " for " + userId);
+
+		UrlServiceUtil caller = new UrlServiceUtil("wbShare");
+		caller.addParam(PARAM_USER_ID, currentUserId);
+		caller.addParam(PARAM_USER_PASSWORD, userPassword);
+		caller.addParam(PARAM_DATA, data);
+		caller.addParam(PARAM_USER_ID_TO_SHARE, shareTouserId);
+
+		String result = caller.callGet();
+		return result;
+
+	}
+
+	public static String publish(String userId, String userPassword)
+			throws Throwable {
+
+		String data = getClipboarddata();
+		UrlServiceUtil caller = new UrlServiceUtil("wbSet");
+		caller.addParam(PARAM_USER_ID, userId);
+		caller.addParam(PARAM_USER_PASSWORD, userPassword);
+		caller.addParam(PARAM_DATA, data);
+
+		String result = caller.callGet();
+		System.out.println(result + " published " + data + " for " + userId);
 		return data;
 	}
 
-	private static String getClipboarddata() throws UnsupportedFlavorException, Throwable {
+	private static String getClipboarddata() throws UnsupportedFlavorException,
+			Throwable {
 
 		Clipboard clipB = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable contents = clipB.getContents(null);
-		String plainTet = (String) contents.getTransferData(DataFlavor.stringFlavor);
-//		BufferedReader reader = new BufferedReader(plainTet);
-//		String inputLine;
-//		while ((inputLine = reader.readLine()) != null)
-//			inputLine += inputLine;
+		String plainTet = (String) contents
+				.getTransferData(DataFlavor.stringFlavor);
+		// BufferedReader reader = new BufferedReader(plainTet);
+		// String inputLine;
+		// while ((inputLine = reader.readLine()) != null)
+		// inputLine += inputLine;
 		return plainTet;
 	}
 
-	public static String refresh(String userId,String userPassword) throws Throwable {
+	public static String refresh(String userId, String userPassword)
+			throws Throwable {
 
-		URL oracle = new URL("http://wonder-board.appspot.com/wbGet?userId="
-				+ userId+"&userPassword="+userPassword);
-		URLConnection yc = oracle.openConnection();
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				yc.getInputStream()));
-		String data = "";
-		String inputLine;
-		while ((inputLine = in.readLine()) != null){
-			data += inputLine;
+		UrlServiceUtil caller = new UrlServiceUtil("wbGet");
+		caller.addParam(PARAM_USER_ID, userId);
+		caller.addParam(PARAM_USER_PASSWORD, userPassword);
+
+		String data = caller.callGet();
+		System.out.println(" for User Id " + userId + " : " + data);
+		if (!data.equals(Constants.NOT_AVIALABLE)) {
+			updateClipboard(data);
 		}
-		in.close();
-		
-		System.out.println(" for User Id "+userId+ " : "+data);
-
-		updateClipboard(data);
 		return data;
 	}
 
-	private static void updateClipboard(String data) {
+	public static void updateClipboard(String data) {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
 		StringSelection strSel = new StringSelection(data);
 		clipboard.setContents(strSel, null);
-		System.out.println("updated clipboard with "+data);
+		System.out.println("updated clipboard with " + data);
 	}
 
-	public static boolean authenticate(String userId, String userPass) throws IOException {
-		URL oracle = new URL("http://wonder-board.appspot.com/wbSignup");
-		
-		String toServer = "userId="+userId+"&userPassword="+userPass+"&actReq=authenticate";
+	public static boolean authenticate(String userId, String userPass)
+			throws IOException {
+		URL oracle = new URL(UrlServiceUtil.SERVER + "wbSignup");
+
+		String toServer = "userId=" + userId + "&userPassword=" + userPass
+				+ "&actReq=authenticate";
 		HttpURLConnection con = (HttpURLConnection) oracle.openConnection();
 		con.setRequestMethod("POST");
-		con.setRequestProperty("Content-type","application/x-www-form-urlencoded");
-		con.setRequestProperty("Content-length",""+toServer.length());
+		con.setRequestProperty("Content-type",
+				"application/x-www-form-urlencoded");
+		con.setRequestProperty("Content-length", "" + toServer.length());
 		con.setDoOutput(true);
 		con.setUseCaches(false);
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
 		wr.write(toServer);
 		wr.flush();
 		wr.close();
-		
+
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				con.getInputStream()));
 		String data = "";
 		String inputLine;
-		while ((inputLine = in.readLine()) != null){
+		while ((inputLine = in.readLine()) != null) {
 			data += inputLine;
 		}
 		in.close();
 		System.out.println(data);
 		return (data.contains("SUCCESS"));
 	}
+
+	public static HashMap<String, String> refreshShared(String userId,
+			String userPassword) throws MalformedURLException, IOException {
+
+		UrlServiceUtil caller = new UrlServiceUtil("wbShareGet");
+		caller.addParam(PARAM_USER_ID, userId);
+		caller.addParam(PARAM_USER_PASSWORD, userPassword);
+		String result = caller.callGet();
+
+		if (result == null || result.isEmpty()
+				|| result.equals(Constants.NOT_AVIALABLE)) {
+			return new HashMap<String, String>();
+		}
+
+		HashMap<String, String> sharedUserDataMap = gson.fromJson(result,
+				new HashMap<String, String>().getClass());
+		return sharedUserDataMap;
+	}
+
 }

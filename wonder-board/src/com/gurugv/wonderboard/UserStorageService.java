@@ -34,7 +34,7 @@ public class UserStorageService {
 				return false;
 			}
 		} catch (EntityNotFoundException e) {
-			e.printStackTrace();
+		//	e.printStackTrace();
 			return false;
 		}
 		return true;

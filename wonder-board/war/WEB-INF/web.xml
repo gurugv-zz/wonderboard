@@ -31,6 +31,25 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<url-pattern>/wbSet</url-pattern>
 	</servlet-mapping>
 	
+		<servlet>
+		<servlet-name>WB_Share</servlet-name>
+		<servlet-class>com.gurugv.wonderboard.WonderShare</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WB_Share</servlet-name>
+		<url-pattern>/wbShare</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>WB_ShareGet</servlet-name>
+		<servlet-class>com.gurugv.wonderboard.WonderShareGet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WB_ShareGet</servlet-name>
+		<url-pattern>/wbShareGet</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>WB_SignUp</servlet-name>
 		<servlet-class>com.gurugv.wonderboard.WbSignup</servlet-class>
