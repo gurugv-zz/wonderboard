@@ -63,7 +63,7 @@ public class WbClient {
 		userIdMenuItem = new MenuItem(userId);
 		MenuItem publishItem = new MenuItem("Publish Clipboard");
 		MenuItem refresh = new MenuItem("Refresh Clipboard From Network");
-		MenuItem shareMenuItem = new MenuItem("Share Clipboard (Coming Soon)");
+		MenuItem shareMenuItem = new MenuItem("Share Clipboard ...");
 		shareItemsMenu = new Menu("Shared Items ");
 		// CheckboxMenuItem cb1 = new CheckboxMenuItem("Set auto size");
 		// CheckboxMenuItem cb2 = new CheckboxMenuItem("Set tooltip");
