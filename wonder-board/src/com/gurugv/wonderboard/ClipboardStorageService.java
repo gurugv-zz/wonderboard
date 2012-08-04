@@ -25,6 +25,7 @@ public class ClipboardStorageService implements Serializable {
 
 	public ClipboardStorageService(String userId, String userPass) {
 		super();
+	
 		this.userId = userId;
 		lastItemKey = KeyFactory.createKey(CLIPBOARDSTORAGE_PREFIX, userId);
 	}

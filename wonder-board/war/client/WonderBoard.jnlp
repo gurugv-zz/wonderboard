@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="http://wonder-board.appspot.com/client">
+  <information>
+    <title>WonderBoard Network Copy Paste</title>
+    <vendor>WonderBoard</vendor>
+    <icon kind="splash" href="../images/MushroomBig.png"/>
+    <icon kind="shortcut" href="../images/MushroomBig.png"  width="64" height="64"/>
+  	<!--<offline-allowed/>--> 
+  	 <shortcut>
+        <desktop/>
+    </shortcut>
+  </information>
+  <resources>
+    <!-- Application Resources -->
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="wb.jar" main="true" />
+  </resources>
+  <security>
+      <all-permissions/>
+  </security>
+  <application-desc
+    name="WonderBoard Network Copy Paste"
+    main-class="WbClient"
+    width="300"
+    height="300">
+  </application-desc>
+  <update check="always" policy="always">
+</jnlp>
