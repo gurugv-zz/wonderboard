@@ -8,12 +8,19 @@
 
 <html>
 <head>
+<meta name="description" content="Network Copy Paste WonderBoard">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>WonderBoard - Network Copy Paste</title>
 <script type="text/javascript" src="script/jquery-1.7.2.min.js"></script>
 <style type="text/css">
 body {font-family: Trebuchet MS;}
 </style>
+<meta property="og:title" content="WonderBoard -Network Clipboard" />
+<meta property="og:type" content="" />
+<meta property="og:url" content="http://wonder-board.appspot.com/" />
+<meta property="og:image" content="http://wonder-board.appspot.com/images/wonderboard.png" />
+<meta property="og:site_name" content="WonderBoard -Network Clipboard" />
+<meta property="fb:app_id" content="480418641970164" />
 </head>
 
 <script type="text/javascript">
@@ -49,6 +56,37 @@ body {font-family: Trebuchet MS;}
 </script>
 
 <body  style="width:100%">
+<div id="fb-root"></div>
+<script>
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '480418641970164', // App ID
+      channelUrl : '//WWW.wonder-board.appspot.COM/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional initialization code here
+  };
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "http://connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=480418641970164";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 	<h2 align="center"><font face="Trebuchet MS"><b><u>WonderBoard</u></b> Network Copy Paste</font></h2>
 
 	<table align="center">
@@ -94,6 +132,16 @@ body {font-family: Trebuchet MS;}
 		</tr>
 		<tr>
 			<td colspan="2"><br><img src="images/wonderboard.png"></img></td>
+		</tr>
+		
+		<tr>
+			<td colspan="2">
+			<div class="fb-like" data-send="true" data-width="450" data-show-faces="true" data-font="tahoma"></div></td>
+		</tr>
+		
+		<tr>
+			<td colspan="2">
+			<div class="fb-comments" data-href="http://wonder-board.appspot.com/" data-num-posts="10" data-width="470"></div>
 		</tr>
 	</table>
 </body>
