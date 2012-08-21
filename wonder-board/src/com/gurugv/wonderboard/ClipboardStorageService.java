@@ -9,6 +9,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Text;
 
 public class ClipboardStorageService implements Serializable {
 
@@ -48,7 +49,8 @@ public class ClipboardStorageService implements Serializable {
 	public void updateNewClipboardItem(String item) {
 
 		Entity clipboardentity = new Entity(lastItemKey);
-		clipboardentity.setProperty(COL_DATA, item);
+	
+		clipboardentity.setProperty(COL_DATA, new Text(item));
 		clipboardentity.setProperty(COL_TIME, new Date());
 		DatastoreServiceFactory.getAsyncDatastoreService().put(clipboardentity);
 		System.out.println(lastItemKey + " SAVED " + item + " for user "
@@ -64,6 +66,6 @@ public class ClipboardStorageService implements Serializable {
 			e.printStackTrace();
 			return Constants.NOT_AVIALABLE;
 		}
-		return (String) entity.getProperty(COL_DATA);
+		return ((Text) entity.getProperty(COL_DATA)).getValue();
 	}
 }

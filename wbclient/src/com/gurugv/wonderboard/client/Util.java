@@ -52,7 +52,7 @@ public class Util {
 		caller.addParam(PARAM_USER_PASSWORD, userPassword);
 		caller.addParam(PARAM_DATA, data);
 
-		String result = caller.callGet();
+		String result = caller.callPost();
 		System.out.println(result + " published " + data + " for " + userId);
 		return data;
 	}
