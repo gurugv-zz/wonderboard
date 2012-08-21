@@ -16,8 +16,8 @@ import java.util.Map.Entry;
 
 public class UrlServiceUtil {
 
-//	public static final String SERVER = "http://wonder-board.appspot.com/";
-	public static final String SERVER = "http://localhost:8888/";
+	public static final String SERVER = "http://wonder-board.appspot.com/";
+//	public static final String SERVER = "http://localhost:8888/";
 	private final String servlet;
 	private final String urlStr;
 	private final HashMap<String, String> params = new HashMap<String, String>();
